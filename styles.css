@@ -1,0 +1,184 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    padding-bottom: 5px;
+}
+.header-info {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+button:hover {
+    background-color: #218838;
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #000;
+    padding: 6px 12px;
+    text-align: center;
+    font-size: 12px;
+}
+/* 🔥 FIX Wrap Text untuk Trips */
+td:nth-child(2) {
+    white-space: normal !important;
+    word-wrap: break-word;
+    max-width: 200px;
+}
+th {
+    background-color: #f2f2f2;
+    font-size: 14px;
+}
+/* 🔥 Highlight Ahad & Sabtu */
+tr.sunday {
+    background-color: #ffcccc !important; /* Merah untuk Ahad */
+}
+tr.saturday {
+    background-color: #ffff99 !important; /* Kuning untuk Sabtu */
+}
+/* 🔥 Gaya "Tiada Rekod" */
+.no-records {
+    text-align: center;
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+    display: none;
+}
+/* 🔥 PRINT MODE FINAL FIX */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: none;
+    }
+    .header, .sidebar, .footer, .buttons, #printButton, #exportPDF {
+        display: none;
+    }
+    h2 {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+    .header-info {
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    table {
+        width: 100%;
+        margin-top: 0;
+        border-collapse: collapse;
+        border: 1px solid black;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 6px 10px;
+        text-align: center;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-size: 14px;
+    }
+    /* Buang column "Edit" dalam cetakan */
+    th:last-child, td:last-child {
+        display: none;
+    }
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+    /* 🔥 FIX Ruang Tandatangan */
+    .signature-block {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .signature-block div {
+        text-align: center;
+        width: 45%;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .signature-block div p {
+        margin: 25px 0 5px;
+        border-top: 1px dashed black;
+        display: inline-block;
+        width: 80%;
+    }
+    .total-ot {
+        text-align: right;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    /* 🔥 FIX Footer Print Issue */
+    @page {
+        @bottom-center {
+            content: none;
+        }
+    }
+}
+/* 🔥 Responsive Styles */
+@media (max-width: 768px) {
+    table {
+        font-size: 12px;
+    }
+    td, th {
+        padding: 6px 10px;
+    }
+}
+/* Style for the Delete button */
+.delete-btn {
+    background-color: #dc3545; /* Red background */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.delete-btn:hover {
+    background-color: #bb2d3b; /* Darker red on hover */
+}

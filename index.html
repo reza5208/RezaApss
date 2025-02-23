@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borang Kerja Lebih Masa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <!-- Title -->
+    <h2>Borang Kerja Lebih Masa</h2>
+
+    <!-- Month Selector -->
+    <div class="no-print">
+        <label for="monthYear">Pilih Bulan & Tahun:</label>
+        <input type="month" id="monthYear" required>
+    </div>
+
+    <!-- Header Info -->
+    <div class="header-info">
+        <p><strong>Nama:</strong> Khairul Reza | <strong>Department:</strong> WH3 Transport</p>
+        <p><strong>Bulan:</strong> <span id="currentMonth"></span></p>
+        <p><strong>Nama Ketua:</strong> <span id="supervisorName">Talib</span></p>
+    </div>
+    <hr class="no-print">
+
+    <!-- Clock-In/Out Form -->
+    <form id="clockForm" class="no-print">
+        <label for="date">Tarikh:</label>
+        <input type="date" id="date" required>
+        <label for="clockIn">Masa Clock-In:</label>
+        <input type="time" id="clockIn" required>
+        <label for="clockOut">Masa Clock-Out:</label>
+        <input type="time" id="clockOut" required>
+        <button type="submit">Simpan Kehadiran</button>
+    </form>
+    <hr class="no-print">
+
+    <!-- Trip Entry Form -->
+    <form id="tripForm" class="no-print">
+        <label for="destination">Destinasi:</label>
+        <select id="destination" required>
+            <option value="">-- Pilih Destinasi --</option>
+        </select>
+        <div id="airwayBillField" class="airway-bill" style="display: none;">
+            <label for="airwayBill">Airway Bill (KLIA Cargo Sahaja):</label>
+            <input type="text" id="airwayBill">
+        </div>
+        <button type="submit">Tambah Trip</button>
+    </form>
+
+    <!-- Add New Destination -->
+    <div class="no-print">
+        <label for="newTrip">Tambah Destinasi Baru:</label>
+        <input type="text" id="newTrip" placeholder="Masukkan destinasi baru">
+        <button id="addTripButton">Tambah Destinasi</button>
+    </div>
+    <hr>
+
+    <!-- Report Table -->
+    <h3>Laporan Harian</h3>
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th>Tarikh</th>
+                <th>Destinasi</th>
+                <th>Clock-In</th>
+                <th>Clock-Out</th>
+                <th>OT (Jam)</th>
+                <th class="print-only">Tandatangan Anda</th>
+                <th class="print-only">Tandatangan Penyelia</th>
+                <th>Padam</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- No Records Message -->
+    <p id="noRecordsMessage" class="no-records">Tiada rekod untuk bulan ini.</p>
+
+    <!-- Total OT -->
+    <h4 class="total-ot">Jumlah OT Bulan Ini: <span id="totalOT">0.00</span> Jam</h4>
+
+    <!-- Buttons -->
+    <button id="exportPDF" class="no-print">Export ke PDF</button>
+    <button id="printButton" class="no-print">Cetak Laporan</button>
+</div>
+
+<!-- Include jsPDF and AutoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

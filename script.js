@@ -1,11 +1,9 @@
-// script.js
-
 // Constants
 const defaultTrips = [
     "KLIA Cargo", "MBG KLIA2", "MBG 163", "MBG AEON Maluri", "MBG NU Sentral",
     "MBG DPulze", "MBG Setapak Sentral", "MBG Selayang", "MBG Nil ai", "MBG Redtick",
     "MBG AEON Shah Alam", "MBG IOI Putrajaya", "MBG MRT", "MBG Pavilion Bukit Jalil",
-    "MBG Ampang", "MBG Bangsar", "MBG Setia Alam", "MBG Kota Damansara"
+    "MBG Ampang", "MBG Bangsar", "MBG Setia Alam", "MBG Kota Daman sara"
 ];
 
 // State
@@ -225,6 +223,7 @@ function formatTime(time) {
 
 function calculateOT(clockIn, clockOut, date, trips) {
     if (!clockIn || !clockOut) return 0;
+    if (trips.some(trip => trip.startsWith("KLIA Cargo"))) return 0;
 
     const convertToMinutes = (time) => {
         const [hours, minutes] = time.split(":").map(Number);
@@ -236,24 +235,20 @@ function calculateOT(clockIn, clockOut, date, trips) {
     const isNextDay = endTime < startTime;
     const adjustedEndTime = isNextDay ? endTime + 24 * 60 : endTime;
 
-    const workEnd = 17 * 60; // 5:00 PM
-    const saturdayThreshold = 14 * 60; // 2:00 PM
+    const workEnd = 17 * 60;
+    const saturdayThreshold = 14 * 60;
 
     let otMinutes = 0;
 
     if (new Date(date).getDay() === 0) {
-        // Sunday: All hours are OT, even for KLIA Cargo
         otMinutes = adjustedEndTime - startTime;
     } else if (new Date(date).getDay() === 6) {
-        // Saturday: OT starts after 2:00 PM
         otMinutes = Math.max(adjustedEndTime - Math.max(startTime, saturdayThreshold), 0);
     } else {
-        // Weekdays: OT starts after 5:00 PM, no OT for KLIA Cargo
-        if (trips.some(trip => trip.startsWith("KLIA Cargo"))) return 0;
         otMinutes = Math.max(adjustedEndTime - Math.max(startTime, workEnd), 0);
     }
 
-    return Math.max(otMinutes / 60, 0).toFixed(2);
+    return otMinutes / 60;
 }
 
 function exportToPDF() {
@@ -276,7 +271,7 @@ function exportToPDF() {
             formatTime(record.clock_in),
             formatTime(record.clock_out),
             calculateOT(record.clock_in, record.clock_out, date, record.trips).toFixed(2),
-            "", 
+            "",
             ""
         ]);
     });
@@ -314,7 +309,7 @@ function exportToPDF() {
 
     // Save the PDF
     doc.save(`Borang_Kerja_Lebih_Masa_${currentMonthKey}.pdf`);
-} 
+}
 
 function printReport() {
     window.print();

@@ -223,7 +223,6 @@ function formatTime(time) {
 
 function calculateOT(clockIn, clockOut, date, trips) {
     if (!clockIn || !clockOut) return 0;
-    if (trips.some(trip => trip.startsWith("KLIA Cargo"))) return 0;
 
     const convertToMinutes = (time) => {
         const [hours, minutes] = time.split(":").map(Number);
@@ -235,17 +234,25 @@ function calculateOT(clockIn, clockOut, date, trips) {
     const isNextDay = endTime < startTime;
     const adjustedEndTime = isNextDay ? endTime + 24 * 60 : endTime;
 
-    const workEnd = 17 * 60;
-    const saturdayThreshold = 14 * 60;
+    const workEnd = 17 * 60; // Weekday work ends at 17:00
+    const saturdayThreshold = 14 * 60; // Saturday work ends at 14:00
 
     let otMinutes = 0;
 
     if (new Date(date).getDay() === 0) {
+        // Sunday: Count all hours as OT, regardless of trips
         otMinutes = adjustedEndTime - startTime;
-    } else if (new Date(date).getDay() === 6) {
-        otMinutes = Math.max(adjustedEndTime - Math.max(startTime, saturdayThreshold), 0);
     } else {
-        otMinutes = Math.max(adjustedEndTime - Math.max(startTime, workEnd), 0);
+        // For other days, check for "KLIA Cargo" trips
+        if (trips.some(trip => trip.startsWith("KLIA Cargo"))) return 0;
+
+        if (new Date(date).getDay() === 6) {
+            // Saturday: OT starts after 14:00
+            otMinutes = Math.max(adjustedEndTime - Math.max(startTime, saturdayThreshold), 0);
+        } else {
+            // Weekdays: OT starts after 17:00
+            otMinutes = Math.max(adjustedEndTime - Math.max(startTime, workEnd), 0);
+        }
     }
 
     return otMinutes / 60;
